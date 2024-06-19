@@ -5,6 +5,7 @@ import Cookies from 'js-cookie'
 import {AiOutlineSearch} from 'react-icons/ai'
 
 import Header from '../Header'
+
 import JobItem from '../JobItem'
 import './index.css'
 
@@ -82,11 +83,12 @@ class AllJobs extends Component {
   onGetProfileDetails = async () => {
     this.setState({apiStatus: apiStatusConstants.inProgress})
     const jwtToken = Cookies.get('jwt_token')
+
     const {checkboxInputs, radioInput, searchInput} = this.state
     const apiUrl = `https://apis.ccbp.in/profile`
     const options = {
       headers: {
-        Authourization: `Bearer ${jwtToken}`,
+        Authorization: `Bearer ${jwtToken}`,
       },
       method: 'GET',
     }
@@ -114,7 +116,7 @@ class AllJobs extends Component {
     const apiUrl = `https://apis.ccbp.in/jobs?employement_type=${checkboxInputs}&minimun_package=${radioInput}&search=${searchInput}`
     const optionsJobs = {
       headers: {
-        Authourization: `Bearer ${jwtToken}`,
+        Authorization: `Bearer ${jwtToken}`,
       },
       method: 'GET',
     }
@@ -297,7 +299,7 @@ class AllJobs extends Component {
     this.setState({searchInput: event.target.value})
   }
 
-  onSubmitSerachInput = () => {
+  onSubmitSearchInput = () => {
     this.onGetJobDetails()
   }
 
@@ -316,7 +318,7 @@ class AllJobs extends Component {
           <div>
             {this.onRenderProfileStatus()}
             <hr />
-            <h1>Type of Employement</h1>
+            <h1>Type of Employment</h1>
             {this.onGetCheckBoxesView()}
             <hr />
             <h1>Salary Range</h1>
@@ -334,7 +336,7 @@ class AllJobs extends Component {
               <button
                 data-testid="searchButton"
                 type="button"
-                onClick={this.onSubmitSerachInput}
+                onClick={this.onSubmitSearchInput}
               >
                 <AiOutlineSearch />
               </button>
