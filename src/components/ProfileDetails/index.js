@@ -10,28 +10,26 @@ const apiStatusConstants = {
   inProgress: 'IN_PROGRESS',
 }
 
-class ProfileDetails extends Component {
+class ProfileCard extends Component {
   state = {
     apiStatus: apiStatusConstants.initial,
     profileData: [],
   }
+
   componentDidMount() {
-    console.log('componentDidMount')
     this.getProfile()
   }
 
   getProfile = async () => {
-    console.log('get Profile')
     const jwtToken = Cookies.get('jwt_token')
     const apiUrl = 'https://apis.ccbp.in/profile'
     const options = {
       headers: {
-        Authourization: `Bearer ${jwtToken}`,
+        Authorization: `Bearer ${jwtToken}`,
       },
       method: 'GET',
     }
     const response = await fetch(apiUrl, options)
-    console.log(response)
     if (response.ok === true) {
       const data = await response.json()
       console.log(data)
@@ -74,6 +72,7 @@ class ProfileDetails extends Component {
       <Loader type="ThreeDots" color="#ffffff" />
     </div>
   )
+
   render() {
     const {apiStatus} = this.state
 
@@ -90,4 +89,4 @@ class ProfileDetails extends Component {
   }
 }
 
-export default ProfileDetails
+export default ProfileCard
