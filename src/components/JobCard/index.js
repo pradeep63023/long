@@ -12,14 +12,13 @@ const JobCard = props => {
     title,
     rating,
     location,
-    employementType,
+    employmentType,
     jobDescription,
     packagePerAnnum,
     id,
   } = jobData
 
   return (
-    //jump to the jobs
     <Link to={`/jobs/${id}`}>
       <li>
         <div className="job-items">
@@ -41,7 +40,7 @@ const JobCard = props => {
               </div>
               <div>
                 <BsFillBriefcaseFill className="brief-con" />
-                <p>{employementType}</p>
+                <p>{employmentType}</p>
               </div>
             </div>
             <p>{packagePerAnnum}</p>
