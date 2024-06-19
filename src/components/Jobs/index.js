@@ -55,9 +55,9 @@ const apiStatusConstants = {
 
 class Jobs extends Component {
   state = {
-    jobsLists: [],
+    jobsList: [],
     apiStatus: apiStatusConstants.initial,
-    employmentType: [],
+    employeeType: [],
     minimumSalary: 0,
     searchInput: '',
   }
@@ -70,8 +70,8 @@ class Jobs extends Component {
     this.setState({
       apiStatus: apiStatusConstants.inProgress,
     })
-    const {employmentType, minimumSalary, searchInput} = this.state
-    const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${employmentType.join()}&minimum_package=${minimumSalary}&search=${searchInput}`
+    const {employeeType, minimumSalary, searchInput} = this.state
+    const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${employeeType.join()}&minimum_package=${minimumSalary}&search=${searchInput}`
     const jwtToken = Cookies.get('jwt_token')
     const options = {
       headers: {
@@ -84,9 +84,9 @@ class Jobs extends Component {
       const data = await response.json()
       const updatedJobsData = data.jobs.map(eachJob => ({
         companyLogoUrl: eachJob.company_logo_url,
-        empolyementType: data.empolyement_type,
-        id: data.id,
-        jobDescription: data.job_description,
+        employmentType: eachJob.employment_type,
+        id: eachJob.id,
+        jobDescription: eachJob.job_description,
         location: eachJob.location,
         packagePerAnnum: eachJob.package_Per_annum,
         rating: eachJob.rating,
@@ -122,7 +122,7 @@ class Jobs extends Component {
           alt="no jobs"
         />
         <h1>No Jobs Found</h1>
-        <P>We could not found any jobs.</P>
+        <p>We could not found any jobs.</p>
       </div>
     )
   }
@@ -178,9 +178,7 @@ class Jobs extends Component {
 
   changeEmployeeList = type => {
     this.setState(
-      prev => ({
-        employmentType: [...prev.employmentType, type],
-      }),
+      prev => ({employeeType: [...prev.employeeType, type]}),
       this.getJobs,
     )
   }
@@ -208,10 +206,11 @@ class Jobs extends Component {
                   type="search"
                   onChange={this.changeSearchInput}
                   onKeyDown={this.onEnterSearchInput}
-                  placeholder="ssearch"
+                  placeholder="search"
                 />
                 <button
                   onClick={this.getJobs}
+                  aria-label="p"
                   data-testid="searchButton"
                   type="button"
                 >
