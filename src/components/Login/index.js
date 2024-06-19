@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 import './index.css'
 
 class Login extends Component {
-  state = {username: '', password: '', showErrorMsg: false, errorMsg: ''}
+  state = {username: '', password: '', showSubmitError: false, errorMsg: ''}
 
   onChangeUsername = event => {
     this.setState({username: event.target.value})
@@ -16,12 +16,14 @@ class Login extends Component {
 
   onSubmitSuccess = jwtToken => {
     const {history} = this.props
-    Cookies.set('jwt_token', jwtToken, {expires: 30})
+    Cookies.set('jwt_token', jwtToken, {
+      expires: 30,
+    })
     history.replace('/')
   }
 
   onSubmitFaliure = errorMsg => {
-    this.setState({errorMsg, showErrorMsg: true})
+    this.setState({errorMsg, showSubmitError: true})
   }
 
   submitForm = async event => {
@@ -44,10 +46,10 @@ class Login extends Component {
   }
 
   render() {
-    const {username, password, showErrorMsg, errorMsg} = this.state
+    const {username, password, showSubmitError, errorMsg} = this.state
     const token = Cookies.get('jwt_token')
     if (token !== undefined) {
-      ;<Redirect to="/" />
+      return <Redirect to="/" />
     }
     return (
       <div className="login-con">
@@ -70,6 +72,7 @@ class Login extends Component {
           </div>
           <div className="input-con">
             <label className="label-con" htmlFor="password">
+              PASSWORD
               <input
                 type="text"
                 value={password}
@@ -83,7 +86,7 @@ class Login extends Component {
             <button type="submit" className="login-button">
               Login
             </button>
-            {showErrorMsg && <p className="error-msg">*{errorMsg}</p>}
+            {showSubmitError && <p className="error-msg">*{errorMsg}</p>}
           </div>
         </form>
       </div>
